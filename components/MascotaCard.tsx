@@ -4,10 +4,14 @@ import { Colores } from '@/constants/colores';
 interface Props {
   mascota: {
     nombre: string;
-    edad: number;
+    raza: string;
+    color: string;
+    caracteristicas: string;
     especie: string;
     sexo: string;
-    picture?: string; 
+    gpsId?: number;
+    edad: number;
+    picture?: string;
   };
 }
 

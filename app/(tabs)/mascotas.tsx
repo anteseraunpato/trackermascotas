@@ -4,15 +4,19 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Colores } from '@/constants/colores';
 
-const API_URL = 'http://192.168.1.78:3000/mascotas'; // Asegúrate que esta IP sea la correcta
+const API_URL = 'http://192.168.1.106:3000/mascotas'; // Asegúrate que esta IP sea la correcta
 
 type Mascota = {
   id: number;
   nombre: string;
-  edad: number;
-  especie: string;
-  sexo: string;
-  picture?: string; // URL de la imagen
+    raza: string;
+    color: string;
+    caracteristicas: string;
+    especie: string;
+    sexo: string;
+    gpsId?: number;
+    edad: number;
+    picture?: string;
 };
 
 export default function MascotasScreen() {
