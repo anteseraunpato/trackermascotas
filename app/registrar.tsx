@@ -3,7 +3,7 @@ import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Colores } from '@/constants/colores';
 
-const API_URL = 'http://192.168.1.106:3000/mascotas'; // Asegúrate que esta IP sea correcta
+const API_URL = 'http://192.168.1.127:3000/mascotas'; // Asegúrate que esta IP sea correcta
 
 export default function RegistrarScreen() {
   const [nombre, setNombre] = useState('');
