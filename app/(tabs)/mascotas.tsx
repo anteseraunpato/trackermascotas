@@ -1,18 +1,57 @@
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, ActivityIndicator } from 'react-native';
 import MascotaCard from '@/components/MascotaCard';
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Colores } from '@/constants/colores';
 
+const API_URL = 'http://192.168.1.106:3000/mascotas'; // Asegúrate que esta IP sea la correcta
+
+type Mascota = {
+  id: number;
+  nombre: string;
+    raza: string;
+    color: string;
+    caracteristicas: string;
+    especie: string;
+    sexo: string;
+    gpsId?: number;
+    edad: number;
+    picture?: string;
+};
+
 export default function MascotasScreen() {
-  const mascotas = [
-    { id: '1', nombre: 'Firulais', raza: 'Labrador', edad: 3 },
-    { id: '2', nombre: 'Michi', raza: 'Gato', edad: 2 },
-  ];
+  const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchMascotas = async () => {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      setMascotas(data);
+    } catch (error) {
+      console.error('Error al obtener mascotas:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMascotas();
+  }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Tus Mascotas</Text>
-      <FlatList data={mascotas} keyExtractor={(item) => item.id} renderItem={({ item }) => <MascotaCard mascota={item} />} />
+      {loading ? (
+        <ActivityIndicator size="large" color={Colores.primario} />
+      ) : (
+        <FlatList
+          data={mascotas}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <MascotaCard mascota={item} />}
+          ListEmptyComponent={<Text>No hay mascotas registradas.</Text>}
+        />
+      )}
       <View style={{ marginTop: 20 }}>
         <Button title="Registrar nueva mascota" onPress={() => router.push('/registrar')} color={Colores.boton} />
       </View>
